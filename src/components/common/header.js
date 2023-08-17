@@ -7,11 +7,15 @@ import Container from 'react-bootstrap/Container';
 import ListGroup from 'react-bootstrap/ListGroup';
 import panel from '../../images/panel.jpg'
 import logo from '../../images/logo.png'
+import LoginModal from "./login"
+import { FaAlignJustify } from "react-icons/fa";
+
 
 const Header = () => {
   const [show, setShow] = useState(false);
   const [page, setPage] = useState()
   const [content, setContent] = useState()
+  const [modalShow, setModalShow] = React.useState(false);
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow(true);
 
@@ -37,8 +41,8 @@ const Header = () => {
             <Navbar bg="" className=" mb-3 container">
               <Container fluid>
                 <Navbar.Brand href="#" className="site-logo font-gray-1"><b>Rotary.</b></Navbar.Brand>
-                <Button variant="primary" onClick={toggleShow} className="me-2">
-                  Menu
+                <Button variant="outline-light" onClick={toggleShow} className="me-2">
+                  <FaAlignJustify />
                 </Button>
                 
                 <Offcanvas show={show} onHide={handleClose} scroll= "true" placement="end">
@@ -110,12 +114,20 @@ const Header = () => {
                       <ListGroup.Item active={(page === "/myrotary/")}>
                         <a href="https://my.rotary.org/en">My Rotary</a>
                       </ListGroup.Item>
+                      <ListGroup.Item>
+                      <Button variant="link" onClick={() => setModalShow(true)}>
+                        Login
+                      </Button>
+                      </ListGroup.Item>
                     </ListGroup>
                   </Offcanvas.Body>
                 </Offcanvas>
               </Container>
             </Navbar>
-            
+            <LoginModal
+              show={modalShow}
+              onHide={() => setModalShow(false)}
+            />
             <div className="container" >
               <div className="row align-items-center justify-content-center">
                 <div className="col-md-7 text-center">
