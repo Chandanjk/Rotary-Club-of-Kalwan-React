@@ -4,6 +4,7 @@ import paul from "../../images/paul.jpg"
 import rotract from "../../images/rotract.jpg"
 import innerwheel from "../../images/innerwheel.png"
 import rcc from "../../images/rcc.png"
+import Posts from "../posts/posts";
 
 const HomePage = () => {
   return (
@@ -79,6 +80,8 @@ const HomePage = () => {
           </div>
         </div>
 
+        <Posts/>
+        
         {/* Collaorations */}
     <div className="site-section bg-white" id="collaborations">
       <div className="container">

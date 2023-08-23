@@ -1,9 +1,9 @@
 import * as types from "./actionTypes";
 
-export function updateUserDetail(userName, token) {
+export function updateUserDetail(username, token) {
   return {
     type: types.UPDATE_USER_DETAILS_SUCCESS,
-    user: { userName: userName, token: token },
+    user: { username: username, token: token },
   };
 }
 export function removeUserDetail() {

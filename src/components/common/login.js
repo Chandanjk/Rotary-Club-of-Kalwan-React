@@ -34,8 +34,9 @@ const LoginModal = (props) => {
             if (Object.entries(user).length !== 0) {
               console.log("Login Success");
               toast.success("Login Success");
-              props.actions.updateUserDetail(user.role, user.firstName);
+              props.actions.updateUserDetail(user.username);
               setStateData({ ...stateData, loggedIn: true });
+              props.onHide();
             }
           })
           .catch((error) => {
@@ -73,8 +74,8 @@ const LoginModal = (props) => {
                         <Form.Control required type="password" name="password" placeholder="Password" onChange={handleChange}/>
                     </FloatingLabel>
                 </Form.Group>
-                <Button onClick={props.onHide}>Close</Button>
-                <Button type="submit">Login</Button>
+                <Button variant="link"  onClick={props.onHide}>Close</Button>
+                <Button variant="link"  type="submit">Login</Button>
             </Form>
         </Modal.Body>
       </Modal>
@@ -95,7 +96,7 @@ const LoginModal = (props) => {
   function mapDispatchToProps(dispatch) {
     return {
       actions: {
-        updateUserDetail: ( username) =>
+        updateUserDetail: (username) =>
           dispatch(
             loginActions.updateUserDetail(username, "Login-Attempt")
           ),

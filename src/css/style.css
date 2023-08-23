@@ -266,12 +266,12 @@ h1, h2, h3, h4, h5,
     -webkit-box-shadow: none;
     box-shadow: none; }
   .btn.btn-outline-white {
-    border-color: #fff;
+    border-color: #5a5959;
     background: transparent;
-    color: #fff; }
+    color: #5a5959; }
     .btn.btn-outline-white:hover {
-      background: #fff;
-      border-color: #fff;
+      background: #5a5959;
+      border-color: #5a5959;
       color: #000; }
 
 .line-height-1 {
@@ -1966,6 +1966,12 @@ h1, h2, h3, h4, h5,
   background-color: #242f3f;
   animation: loader-inner 2s infinite ease-in;
 }
+
+.page-header {
+  min-width: 770px;
+  min-height: 440px;
+}
+
 @keyframes loader {
   0% { transform: rotate(0deg);}
   25% { transform: rotate(180deg);}

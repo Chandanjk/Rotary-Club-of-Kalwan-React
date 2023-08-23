@@ -1,6 +1,6 @@
 export default {
-    user: {  token: "", userName: "" },
-    
+    user: {  token: "", username: "" },
+    posts: [],
     apiCallsInProgress: 0,
   };
   

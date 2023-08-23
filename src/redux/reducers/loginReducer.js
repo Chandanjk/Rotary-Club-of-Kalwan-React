@@ -7,13 +7,13 @@ export default function loginReducer(state = initialState.user, action) {
       return {
         ...state,
         token: action.user.token,
-        userName: action.user.userName,
+        username: action.user.username,
       };
     case types.REMOVE_USER_DETAILS_SUCCESS:
       return {
         ...state,
         token: "",
-        userName: "",
+        username: "",
       };
     default:
       return state;

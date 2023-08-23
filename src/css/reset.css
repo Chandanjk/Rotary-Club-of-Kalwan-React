@@ -95,7 +95,7 @@ a,a:active
 a:hover,a:focus,.btn:hover,.btn:focus
 {
 	text-decoration: none;		/* To remove the underline from anchor tag */
-	color: #fff;	
+	color: #5a5959;	
 }
 
 .transparent-bg
