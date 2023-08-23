@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
+        use: [  
           // Creates `style` nodes from JS strings
           'style-loader',
           // Translates CSS into CommonJS
@@ -57,4 +57,5 @@ module.exports = {
       },
     ],
   },
+  
 };
