@@ -2,12 +2,28 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Carousel from "react-bootstrap/Carousel";
+import Button from "react-bootstrap/Button";
 import * as postsActions from "../../redux/actions/postsActions";
 import { NavLink } from "react-router-dom";
+import UpdatePostModal from "./updatePost";
+import { toast } from "react-toastify";
+import DeleteItemModal from "../common/deleteItem";
+import CreatePostModal from "./createPost";
 
 const Posts = (props) => {
   const [posts, setPosts] = useState([]);
   const [images, setImages] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [modal1Show, setModal1Show] = useState(false);
+  const [show, setShow] = useState(false);
+  const [stateData, setStateData] = useState({
+    id: "",
+    title: "",
+    date0: "",
+    place: "",
+    content: "",
+    images: [],
+  });
   let image = { id: "", images: [] };
 
   useEffect(() => {
@@ -41,6 +57,121 @@ const Posts = (props) => {
     }
   }, [props.posts]);
 
+  const changeHandler = (event) => {
+    setStateData({ ...stateData, [event.target.name]: event.target.value });
+  };
+
+  const fileChangeHandler = (event) => {
+    // Update the state
+    setStateData({ ...stateData, images: [...event.target.files] });
+  };
+
+  const createHandler = (event) => {
+    event.preventDefault();
+    const data = {
+      id: null,
+      images: stateData.images,
+      title: stateData.title,
+      date0: stateData.date0,
+      place: stateData.place,
+      content: stateData.content,
+    };
+
+    // Create an object of formData
+    //const formData = new FormData();
+
+    // Update the formData object
+    //formData.append("myFile", stateData.images, stateData.images[0].name);
+
+    // Details of the uploaded file
+    //console.log(stateData.images);
+
+    // Request made to the backend api
+    // Send formData object
+    //axios.post("api/uploadfile", formData);
+
+    console.log(data);
+    props
+      .createPost(data)
+      .then(() => {
+        console.log("Post Added");
+        toast.success("Post Added Successfully");
+        setStateData({
+          id: "",
+          title: "",
+          date0: "",
+          place: "",
+          content: "",
+          images: [],
+        });
+        setModal1Show(false);
+      })
+      .catch((error) => {
+        console.log("Failed : " + error);
+        toast.error("Post Addition Failed");
+      });
+  };
+
+  const updateHandler = (event) => {
+    event.preventDefault();
+    const post_to_update = posts.find(
+      (post) => post.id === Number(stateData.id)
+    );
+    const data = {
+      ...post_to_update,
+      title: stateData.title,
+      date0: stateData.date0,
+      place: stateData.place,
+      content: stateData.content,
+    };
+    console.log("data : ");
+    console.log(data);
+    props
+      .updatePost(data)
+      .then(() => {
+        console.log("Post Updated");
+        toast.success("Post Updated Successfully");
+        setStateData({
+          id: "",
+          title: "",
+          date0: "",
+          place: "",
+          content: "",
+          images: [],
+        });
+        setModalShow(false);
+      })
+      .catch((error) => {
+        console.log("Failed : " + error);
+        toast.error("Post Updation Failed");
+      });
+  };
+
+  const deleteHandler = () => {
+    const post_to_delete = posts.find(
+      (post) => post.id === Number(stateData.id)
+    );
+    props
+      .deletePost(post_to_delete)
+      .then(() => {
+        console.log("Post Deleted");
+        toast.success("Post Deleted Succenssfully");
+        setStateData({
+          id: "",
+          title: "",
+          date0: "",
+          place: "",
+          content: "",
+          images: [],
+        });
+        setShow(false);
+      })
+      .catch((error) => {
+        console.log("Failed : " + error);
+        toast.error("Post Deletion Failed");
+      });
+  };
+
   const findImage = (id) => {
     image = images.find((element) => element.id === id) || {
       id: "",
@@ -58,6 +189,30 @@ const Posts = (props) => {
               <h2 className="heading-29190">Our Projects</h2>
             </div>
           </div>
+          <Button
+            variant="success"
+            onClick={() => {
+              setStateData({
+                id: "",
+                title: "",
+                date0: "",
+                place: "",
+                content: "",
+                images: [],
+              });
+              setModal1Show(true);
+            }}
+          >
+            Add Post
+          </Button>
+          <CreatePostModal
+            modalShow={modal1Show}
+            onHide={() => setModal1Show(false)}
+            post={stateData}
+            changeHandler={changeHandler}
+            submitHandler={createHandler}
+            fileChangeHandler={fileChangeHandler}
+          />
           <div className="row justify-content-center">
             {posts &&
               posts.map((post, index) => {
@@ -108,6 +263,52 @@ const Posts = (props) => {
                             <p>{post.content}</p>
                           </div>
                         </div>
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            setStateData({
+                              id: post.id,
+                              images: post.images,
+                              title: post.title,
+                              date0: post.date0,
+                              place: post.place,
+                              content: post.content,
+                            });
+                            setModalShow(true);
+                          }}
+                          className="make-inline half-width"
+                        >
+                          Update
+                        </Button>
+                        <UpdatePostModal
+                          modalShow={modalShow}
+                          onHide={() => setModalShow(false)}
+                          post={stateData}
+                          submitHandler={updateHandler}
+                          changeHandler={changeHandler}
+                        />
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            setStateData({
+                              id: post.id,
+                              images: post.images,
+                              title: post.title,
+                              date0: post.date0,
+                              place: post.place,
+                              content: post.content,
+                            });
+                            setShow(true);
+                          }}
+                          className="make-inline half-width"
+                        >
+                          Delete
+                        </Button>
+                        <DeleteItemModal
+                          show={show}
+                          onHide={() => setShow(false)}
+                          deleteHandler={deleteHandler}
+                        />
                       </div>
                     </div>
                   </>
@@ -141,6 +342,9 @@ const Posts = (props) => {
 
 Posts.propTypes = {
   loadPosts: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired,
+  createPost: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
 };
 
@@ -151,6 +355,9 @@ function mapStateToProps(state) {
 }
 const mapDispatchToProps = {
   loadPosts: postsActions.loadPosts,
+  updatePost: postsActions.updatePost,
+  deletePost: postsActions.deletePost,
+  createPost: postsActions.createPost,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Posts);

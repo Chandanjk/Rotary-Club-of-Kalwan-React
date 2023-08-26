@@ -13,6 +13,10 @@ export function createPostSuccess(post) {
   return { type: types.CREATE_POST_SUCCESS, post: post };
 }
 
+export function deletePostSuccess(post) {
+  return { type: types.DELETE_POST_SUCCESS, post: post };
+}
+
 //thunk definition
 export function loadPosts() {
   return function (dispatch) {
@@ -45,7 +49,22 @@ export function createPost(data) {
     return postsApi
       .addPost(data)
       .then((createdpost) => {
+        console.log("createPost : ");
+        console.log(createdpost);
         dispatch(createPostSuccess(createdpost));
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+}
+
+export function deletePost(post) {
+  return function (dispatch) {
+    return postsApi
+      .deletePost(post.id)
+      .then(() => {
+        dispatch(deletePostSuccess(post));
       })
       .catch((error) => {
         throw error;

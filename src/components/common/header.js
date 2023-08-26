@@ -19,7 +19,7 @@ const Header = (props) => {
   const [show, setShow] = useState(false);
   const [page, setPage] = useState();
   const [content, setContent] = useState();
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const handleClose = () => setShow(false);
   const toggleShow = () => setShow(true);
 

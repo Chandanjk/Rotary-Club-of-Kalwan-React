@@ -1553,8 +1553,6 @@ h5,
 }
 
 .slide {
-  height: 100vh;
-  min-height: 900px;
   background-size: cover;
 }
 
